@@ -1,0 +1,28 @@
+{
+  "name": "rstamp-gen-gen",
+  "version": "0.0.1",
+  "description": "A rstamp template that generates a generator project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "template",
+    "templating",
+    "generator",
+    "rubber-stamp",
+    "rstamp"
+  ],
+  "author": "Lucas Caballero <lucas.caballero@gmail.com>",
+  "license": "Eclipse Public License (EPL)",
+  "dependencies": {
+    "coffee-script": "^1.7.1",
+    "inquirer": "^0.5.1",
+    "lodash": "^2.4.1",
+    "rubber-stamp": "0.0.4"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.20.1"
+  }
+}
