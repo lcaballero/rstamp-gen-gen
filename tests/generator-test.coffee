@@ -38,6 +38,8 @@ describe 'generator =>', ->
         'lib/get-inputs.coffee',
         'tests/generator-test.coffee',
         'index.js',
+        'license',
+        '.gitignore',
         'package.json')
 
     it 'should have interpolated the projectName into the package.json file', ->

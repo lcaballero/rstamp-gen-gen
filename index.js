@@ -1,2 +1,2 @@
 require('coffee-script/register')
-require('./lib/generator')
+require('./lib/get-inputs')
