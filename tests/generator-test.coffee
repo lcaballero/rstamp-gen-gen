@@ -33,6 +33,7 @@ describe 'generator =>', ->
 
       exists(base,
         'files/sources/t1/placeholder.js',
+        'files/sources/t1/package.json',
         'files/targets/t1/placeholder.js',
         'lib/generator.coffee',
         'lib/get-inputs.coffee',

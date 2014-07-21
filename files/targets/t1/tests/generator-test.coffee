@@ -24,21 +24,7 @@ describe 'generator =>', ->
     it 'should create all dirs/ and files into the target dir/', ->
 
       base = target
-      exists(base, 'lib', 'tests', 'files')
-      exists(base,
-        'files/sources',
-        'files/sources/t1',
-        'files/targets',
-        'files/targets/t1')
-
-      exists(base,
-        'files/sources/t1/placeholder.js',
-        'files/targets/t1/placeholder.js',
-        'lib/generator.coffee',
-        'lib/get-inputs.coffee',
-        'tests/generator-test.coffee',
-        'index.js',
-        'package.json')
+      exists(base, 'placeholder.js')
 
     it 'should have interpolated the projectName into the package.json file', ->
 

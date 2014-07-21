@@ -26,7 +26,7 @@ describe 'generator =>', ->
       base = target
       exists(base, 'placeholder.js')
 
-    it.skip 'should have interpolated the projectName into the package.json file', ->
+    it 'should have interpolated the projectName into the package.json file', ->
 
       json = fs.readFileSync(path.resolve(target, 'package.json'), 'utf8')
       conf = JSON.parse(json)
