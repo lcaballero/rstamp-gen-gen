@@ -3,14 +3,10 @@ chai       = require 'chai'
 gen        = require '../lib/generator'
 fs         = require 'fs'
 path       = require 'path'
+{ exists, mkdir, rm, contains } = require './verify-helpers'
 
 
 describe 'generator =>', ->
-
-  exists = (root, dirs...) ->
-    for dir in dirs
-      file = path.resolve(root, dir)
-      expect(fs.existsSync(file), 'should have created file: ' + file).to.be.true
 
   describe 'project generation =>', ->
 
@@ -18,13 +14,16 @@ describe 'generator =>', ->
     target = 'files/targets/t1'
     name   = 'new-project-test'
 
+    createInputs = ->
+      source      : source
+      target      : target
+      projectName : projectName
+
     beforeEach ->
-      gen(source:source, target:target, projectName:name)()
+      gen(createInputs())()
 
     it 'should create all dirs/ and files into the target dir/', ->
-
-      base = target
-      exists(base, 'placeholder.js')
+      exists(target, 'placeholder.js')
 
     it 'should have interpolated the projectName into the package.json file', ->
 

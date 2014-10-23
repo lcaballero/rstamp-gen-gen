@@ -1,50 +1,86 @@
-chai       = require 'chai'
-{ expect } = chai
 gen        = require '../lib/generator'
 fs         = require 'fs'
 path       = require 'path'
+_          = require 'lodash'
+{ exists, mkdir, rm, contains } = require './verify-helpers'
+
 
 
 describe 'generator =>', ->
 
-  exists = (root, dirs...) ->
-    for dir in dirs
-      file = path.resolve(root, dir)
-      expect(fs.existsSync(file), 'should have created file: ' + file).to.be.true
-
   describe 'project generation =>', ->
 
-    source = 'files/sources/t1'
-    target = 'files/targets/t1'
-    name   = 'new-project-test'
+    source      = 'files/sources/s1'
+    target      = 'files/targets/t1'
+
+    projectName = 'new-project-test'
+    version     = '2010.1.1'
+    author      = 'Bruce Wayne'
+    entryPoint  = 'main.js'
+    keywords    = 'words that are key'
+    license     = 'MIT'
+    repository  = 'github'
+    scripts     =
+      test: 'testing command'
+
+    createInputs = ->
+      source          : source
+      target          : target
+      projectName     : projectName
+      name            : projectName
+      version         : version
+      author          : author
+      entryPoint      : entryPoint
+      keywords        : keywords
+      repo            : repository
+      license         : license
+      testCommand     : scripts.test
+
+    opts = createInputs()
+
+    beforeEach (done) ->
+      mkdir 'files/targets', 't1', done
 
     beforeEach ->
-      gen(source:source, target:target, projectName:name)()
+      gen(opts)()
+
+    afterEach (done) ->
+#      rm 'files/targets', 't1', done
+      done()
+
+    it 'check setup', ->
+      expect(opts).to.exist
 
     it 'should create all dirs/ and files into the target dir/', ->
 
-      base = target
-      exists(base, 'lib', 'tests', 'files')
-      exists(base,
-        'files/sources',
-        'files/sources/t1',
-        'files/targets',
-        'files/targets/t1')
+      exists(target
+        'lib'
+        'tests'
+        'files'
+        'files/sources'
+        'files/sources/s1'
+        'files/targets/t1/.gitignore'
+        'lib/generator.coffee'
+        'lib/get-inputs.coffee'
+        'lib/questions.coffee'
+        'tests/generator-test.coffee'
+        'tests/verify-helpers.coffee'
+        'tests/globals.coffee'
+        'index.js'
+        'license'
+        '.gitignore'
+      )
 
-      exists(base,
-        'files/sources/t1/placeholder.js',
-        'files/sources/t1/package.json',
-        'files/targets/t1/placeholder.js',
-        'lib/generator.coffee',
-        'lib/get-inputs.coffee',
-        'tests/generator-test.coffee',
-        'index.js',
-        'license',
-        '.gitignore',
-        'package.json')
+    for a,b of _.omit(opts, 'keywords', 'source', 'target')
+      ((k,v) ->
+        it "should have interpolated the #{k} into the package.json file", ->
+          contains(target, 'package.json', v))(a,b)
 
-    it 'should have interpolated the projectName into the package.json file', ->
 
-      json = fs.readFileSync(path.resolve(target, 'package.json'), 'utf8')
-      conf = JSON.parse(json)
-      expect(conf.name).to.equal(name)
+    for w in _.compact((opts.keywords or "").split(" "))
+      ((word) ->
+        it "should have interpolated the #{word} into the package.json file", ->
+          contains(target, 'package.json', "\"#{word}\""))(w)
+
+
+
