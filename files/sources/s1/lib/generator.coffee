@@ -6,7 +6,7 @@ module.exports = (opts) ->
 
   gen = Gen.using(source, target, opts, "Generate a rubber-stamp generator")
     .mkdir()
-    .translate('package.json')
+    .process('package.json')
 
 
   -> gen.apply()

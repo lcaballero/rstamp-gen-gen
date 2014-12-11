@@ -10,20 +10,20 @@ describe 'generator =>', ->
 
   describe 'project generation =>', ->
 
-    source = 'files/sources/t1'
+    source = 'files/sources/s1'
     target = 'files/targets/t1'
     name   = 'new-project-test'
 
     createInputs = ->
       source      : source
       target      : target
-      projectName : projectName
+      projectName : name
 
     beforeEach ->
       gen(createInputs())()
 
     it 'should create all dirs/ and files into the target dir/', ->
-      exists(target, 'placeholder.js')
+      exists(target, 'package.json')
 
     it 'should have interpolated the projectName into the package.json file', ->
 

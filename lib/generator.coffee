@@ -1,6 +1,7 @@
 Gen   = require 'rubber-stamp'
 fs    = require 'fs'
 path  = require 'path'
+_     = require 'lodash'
 
 
 module.exports = (opts, isTesting) ->
@@ -53,6 +54,9 @@ module.exports = (opts, isTesting) ->
       .copy('lib/get-inputs.coffee')
       .copy('lib/questions.coffee')
 
+      # sources/s1
+      .copy('files/sources/s1/package.json')
+
       # targets/t1
       .copy('files/targets/t1/.gitignore')
 
@@ -60,6 +64,26 @@ module.exports = (opts, isTesting) ->
       .copy('tests/generator-test.coffee')
       .copy('tests/verify-helpers.coffee')
       .copy('tests/globals.coffee')
+      .run(
+        commands :
+          if isTesting then []
+          else [
+            name: 'npm'
+            args: [ 'install', 'coffee-script', 'lodash', 'nject', 'moment', 'rubber-stamp', 'async', 'inquirer', 'cli-color', '--save' ]
+          ,
+            name: 'npm'
+            args: [ 'install', 'mocha', 'chai', 'sinon', 'sinon-chai', '--save-dev' ]
+          ,
+            name: 'git'
+            args: [ 'init' ]
+          ,
+            name: 'chmod',
+            args: [ '+x', opts.entryPoint ]
+          ,
+            name: 'npm'
+            args: [ 'test' ]
+          ]
+      )
     )
 
   ->

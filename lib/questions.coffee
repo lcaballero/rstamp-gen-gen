@@ -47,11 +47,11 @@ module.exports = (conf) ->
       type    : "input"
       message : "What is the repo for the package?"
       default :
-      if conf.repoPrefix? and conf.repoPrefix.trim().length > 0
-        prefix = conf.repoPrefix.replace(/\/$/, "")
-        "#{prefix}/#{dirName}.git"
-      else
-        undefined
+        if conf.repoPrefix? and conf.repoPrefix.trim().length > 0
+          prefix = conf.repoPrefix.replace(/\/$/, "")
+          "#{prefix}/#{dirName}.git"
+        else
+          undefined
     }
     {
       name    : 'email'
